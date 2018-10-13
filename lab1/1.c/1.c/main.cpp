@@ -61,8 +61,30 @@ public:
 
 	bool remove(int pos)
 	{
-		if (pos > length)return false;
-		Node * tmp1 = head,* tmp2 = head;
+
+
+
+		Node * fast = head, * slow = head,* slow_ = head;
+		for (int i = 0; i < pos; i++)
+		{
+			fast = fast->next_;
+		}
+		while (fast != nullptr)
+		{
+			fast = fast->next_;
+			slow_ = slow;
+			slow = slow->next_;
+		}
+		//find the element and delete it
+		//Node * ptr = slow;
+		slow_->next_ = slow->next_;
+		delete slow;
+		return true;
+
+
+
+		//if (pos > length)return false;
+		/*Node * tmp1 = head,* tmp2 = head;
 		for (int i = 2; i < pos; i++)
 		{
 			tmp2 = tmp2->next_;
@@ -80,7 +102,7 @@ public:
 		}
 		delete tmp1;
 		length--;
-		return true;
+		return true;*/
 	};
 private:
 	Node * head;
@@ -102,7 +124,8 @@ int main()
 			cout << "false\nenter n again\n";
 			cin >> n;
 		}
-		a.remove(a.getLength() - n + 1);//maybe some problem
+		a.remove(n);
+		//a.remove(a.getLength() - n + 1);//maybe some problem
 		a.show();
 
 	}
