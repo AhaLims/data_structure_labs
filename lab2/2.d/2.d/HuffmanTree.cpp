@@ -1,8 +1,9 @@
 #include<iostream>
 #include<string>
+#include<queue>
 #include<algorithm>
 using namespace std;
-
+//....
 template<typename T>
 class HNode
 {
@@ -12,7 +13,7 @@ public:
 	virtual bool isLeaf() = 0;
 };
 template<typename T>
-class LeafNode :public HNode
+class LeafNode :public HNode<T>
 {
 public:
 	LeafNode(int weight,T e)
@@ -24,7 +25,7 @@ public:
 	{
 		return w;
 	}
-	E val()
+	T val()
 	{
 		return it;
 	}
@@ -39,7 +40,7 @@ private:
 };
 
 template<typename T>
-class InNode : public HNode
+class InNode : public HNode<T>
 {
 public:
 	bool isLeaf() { return false; };
@@ -61,7 +62,7 @@ public:
 		lChild = (HNode<T> *)l;
 	}
 private:
-	int weight;
+	int w;
 	HNode<T> * lChild, rChild;
 };
 
@@ -69,6 +70,10 @@ template <typename T>
 class HuffTree
 {
 public:
+	bool operator <(const HuffTree<T> & p)//use it when building heap 
+	{
+		return this->weight() < p.weight();
+	}
 	HuffTree(const T & val, int w)
 	{
 		Root = new LeafNode<T>(w, val);
@@ -87,9 +92,6 @@ public:
 	}
 	string HuffCode(T element)
 	{
-
-
-
 		return "-1";//wrong val get -1
 	}
 	int weight()
@@ -136,7 +138,27 @@ bool minTreeComp(HuffTree<T> a, HuffTree<T> b)
 template <typename T>
 HuffTree<T> buildHuff(HuffTree<T>**TreeArray, int count)
 {
-	heap<HuffTree *, minTreeComp> * forest;//mintreeComp??
+	//priority_queue<int,vector<int>,greater<int> >q;
+	priority_queue<HuffTree<T> , vector<HuffTree<T> >, greater<HuffTree<T> > >  forest;
+	for (int i = 0; i < count; i++)
+	{
+		forest.push(*TreeArray[i]);// HuffTree 
+	}
+	//priority_queue<HuffTree<T> *, minTreeComp> * forest = new priority_queue<HuffTree<T> *, minTreeComp>(TreeArray, count, count);
+	HuffTree<T> * temp1, *temp2, *temp3 = nullptr;
+	while (forest.size() > 1)
+	{
+		temp1 = new HuffTree<T>(forest.top());
+		forest.pop();
+		temp2 = new HuffTree<T>(forest.top());
+		forest.pop();
+		temp3 = new HuffTree<T>(temp1, temp2);
+		forest.push(*temp3);
+		delete temp1;
+		delete temp2;
+	}
+	//delete forest;
+	return *temp3;
 }
 
 
@@ -146,4 +168,11 @@ int main()
 {
 	char word[] = { 'a','b','c','d','e','f' };
 	int weight[] = { 1,2,3,4,5,6 };
+	int size = 6;
+	HuffTree<char> ** TreeArray = new HuffTree<char>*[size];
+	for (int i = 0; i < size; i++)
+	{
+		TreeArray[i] = new HuffTree<char>(word[i], weight[i]);
+		buildHuff(TreeArray, size);
+	}
 }
