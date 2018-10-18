@@ -45,7 +45,7 @@ class InNode : public HNode<T>
 public:
 	bool isLeaf() { return false; };
 	int weight() { return w; }
-	InNode(HNode<T> *lc, HNode<T> * rc)
+	InNode(HNode<T> * lc, HNode<T> * rc)
 	{
 		lChild = lc;
 		rChild = rc;
@@ -53,50 +53,66 @@ public:
 	}
 	HNode<T> * leftChild() { return lChild; };
 	HNode<T> * rightChild() { return rChild; };
-	void setRight(HNode<T> r)
+	void setRight(HNode<T>* r)
 	{
 		rchild =(HNode<T> *) r;//why must be tranlated?
 	}
-	void setLeft(HNode<T> l)
+	void setLeft(HNode<T> * l)
 	{
 		lChild = (HNode<T> *)l;
 	}
 private:
 	int w;
-	HNode<T> * lChild, rChild;
+	HNode<T> * lChild, * rChild;
 };
 
 template <typename T>
-class HuffTree
+class HuffTree//没有初始化root??
 {
 public:
-	bool operator <(const HuffTree<T> & p)//use it when building heap 
+	bool operator <(const HuffTree<T> & p)const//use it when building heap 
 	{
 		return this->weight() < p.weight();
 	}
+
+	bool operator >(const HuffTree<T> & p)const//use it when building heap 
+	{
+		return this->weight() > p.weight();
+		
+	}
+
 	HuffTree(const T & val, int w)
 	{
+		cout << "Leaf Node\n";
+		Root = nullptr;
 		Root = new LeafNode<T>(w, val);
 	}
+
 	HuffTree(HuffTree<T> * l, HuffTree<T> * r)
 	{
-		Root = new InNode<T>(l, r);
+		Root = nullptr;
+		Root = new InNode<T>(l->root(), r->root());
 	}
+
 	~HuffTree()
 	{
 		delete Root;
 	}
-	HuffTree<T> * root()
+
+	HNode<T> * root()
 	{
 		return Root;
 	}
+
 	string HuffCode(T element)
 	{
 		return "-1";//wrong val get -1
 	}
-	int weight()
+
+	int weight()const
 	{
-		return root->weight();
+//		cout << Root->weight() << endl;
+		return Root->weight();
 	}
 
 private:
@@ -142,23 +158,26 @@ HuffTree<T> buildHuff(HuffTree<T>**TreeArray, int count)
 	priority_queue<HuffTree<T> , vector<HuffTree<T> >, greater<HuffTree<T> > >  forest;
 	for (int i = 0; i < count; i++)
 	{
-		forest.push(*TreeArray[i]);// HuffTree 
+
+		//cout << TreeArray[i]->weight();
+		
+	 	forest.push( * TreeArray[i] );// HuffTree 
 	}
-	//priority_queue<HuffTree<T> *, minTreeComp> * forest = new priority_queue<HuffTree<T> *, minTreeComp>(TreeArray, count, count);
-	HuffTree<T> * temp1, *temp2, *temp3 = nullptr;
-	while (forest.size() > 1)
-	{
-		temp1 = new HuffTree<T>(forest.top());
-		forest.pop();
-		temp2 = new HuffTree<T>(forest.top());
-		forest.pop();
-		temp3 = new HuffTree<T>(temp1, temp2);
-		forest.push(*temp3);
-		delete temp1;
-		delete temp2;
-	}
-	//delete forest;
-	return *temp3;
+	//HuffTree<T> * temp1, *temp2, *temp3 = nullptr;
+	//while (forest.size() > 1)
+	//{
+	//	temp1 = new HuffTree<T>(forest.top());
+	//	forest.pop();
+	//	temp2 = new HuffTree<T>(forest.top());
+	//	forest.pop();
+	//	temp3 = new HuffTree<T>(temp1, temp2);// need to review!!!!!!!!!!
+	//	forest.push(*temp3);
+	//	delete temp1;
+	//	delete temp2;
+	//}
+	//return *temp3;
+
+	return *TreeArray[0];
 }
 
 
@@ -173,6 +192,7 @@ int main()
 	for (int i = 0; i < size; i++)
 	{
 		TreeArray[i] = new HuffTree<char>(word[i], weight[i]);
-		buildHuff(TreeArray, size);
+		
 	}
+	buildHuff(TreeArray, size);
 }

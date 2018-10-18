@@ -1,5 +1,5 @@
 //need to be test
-
+#include<stdio.h>
 
 
 
@@ -10,17 +10,18 @@ class BinNode
 public:
 	virtual ~BinNode() {};
 
-	virtual E & element() = 0;
+	//virtual E & element()const = 0;/////////////////////////////////////////////////
+	virtual E  element()const = 0;
 
 	virtual void setElement(const E &) = 0;
 
-	virtual BinNode * left()const = 0;
+	//virtual BinNode * left()const = 0;
 
-	virtual BinNode * right() const = 0;
+	//virtual BinNode * right() const = 0;
 	
-	virtual void setRight(BinNode *) = 0;
+	//virtual void setRight(BinNode *) = 0;
 
-	virtual bool isLeaf() = 0;
+	virtual bool isLeaf()const = 0;
 };
 
 template<typename Key,typename E>
@@ -31,9 +32,9 @@ public:
 	{
 		lc = rc = nullptr;
 	};
-	BSTNode(Key k, E e, BSTNode * l = nullptr, BSTNode * r = nullptr)
+	BSTNode(Key kk, E e, BSTNode * l = nullptr, BSTNode * r = nullptr)
 	{
-		k = K;
+		k = kk;
 		it = e;
 		lc = l;
 		rc = r;
@@ -42,7 +43,8 @@ public:
 	{
 
 	};
-	E & element()const
+	//E & element() const////////////////////////////////
+	E element() const
 	{
 		return it;
 	};
@@ -71,16 +73,17 @@ public:
 
 	void setLeft(BinNode<E> * b)
 	{
-		lc = (BSTNode<E> *)b;
+		//lc = (BSTNode *)b;
+		lc = (BSTNode *)b;
 	}
 	void setRight(BinNode<E> * b)
 	{
-		rc = (BSTNode <E> *)b;
+		rc = (BSTNode  *)b;
 	}
 
 	
 
-	bool isLeaf()
+	bool isLeaf()const
 	{
 		return(lc == nullptr && rc == nullptr);
 	}
@@ -116,7 +119,7 @@ public:
 	E remove(const Key & k)
 	{
 		E temp = findhelp(root, k);
-		if (temp != nullptr)
+		if (temp != NULL) //???
 		{
 			root = removehelp(root, k);
 			nodecount--;
@@ -167,19 +170,24 @@ private:
 
 	BSTNode<Key, E>* inserthelp(BSTNode<Key, E> * root_, const Key & k, const E & it)
 	{
-		if (root_ == nullptr)return new BSTNode<Key, E>(k, it, nullptr, nullptr);
+		if (root_ == nullptr)
+		{
+			BSTNode<Key, E> * temp = new BSTNode<Key, E>(k, it, nullptr, nullptr);
+			return temp;
+			//return new BSTNode<Key, E>(k, it, nullptr, nullptr);
+		}
 		if (k < root_->key())
 		{
 			root_->setLeft(inserthelp(root_->left(), k, it));
 		}
-		else root_->right(inserthelp(root_->right, k, it));
+		else root_->setRight(inserthelp(root_->right(), k, it));
 		return root_;
 		// do not understand
 	}
 
 	BSTNode<Key, E> * deletemin(BSTNode<Key, E> * rt)
 	{
-		if (rt->left() = nullptr)return rt->right();
+		if (rt->left() == nullptr)return rt->right();
 		else
 		{
 			rt->setLeft(deletemin(rt->left()));
@@ -193,7 +201,7 @@ private:
 		else return getmin(rt->left());
 	};
 
-	BSTNode<Key, E> removehelp(BSTNode<Key, E> * rt,const Key & k)
+	BSTNode<Key, E> * removehelp(BSTNode<Key, E> * rt,const Key & k)
 	{
 		if (rt == nullptr) return nullptr;
 		else if (k < rt->key())rt->setLeft(removehelp(rt->left(), k));
@@ -225,7 +233,7 @@ private:
 
 	E findhelp(BSTNode<Key, E>* root_,const Key & k)const
 	{
-		if (root_ == nullptr)return nullptr;
+		if (root_ == nullptr)return NULL;
 		if (k < root_->key())return findhelp(root_->left(), k);
 		else if (k > root_->key())return findhelp(root_->right(), k);
 		else return root_->element();
@@ -238,11 +246,9 @@ private:
 		cout << rt->element() << " ";
 		printhelp(rt -> left());
 		printhelp(rt->right());
-	}
-	//void printhelp(BSTNode<Key, E>* rt, int )const//preorder
-	{
-
 	};
+	//void printhelp(BSTNode<Key, E>* rt, int )const//preorder
+	
 
 	
 
