@@ -88,6 +88,35 @@ public:
 		return(lc == nullptr && rc == nullptr);
 	}
 
+	void visit()const
+	{
+		cout << k << " " << it << endl;
+	}
+
+	void preorder(BSTNode * r)const
+	{
+		if (r == nullptr)return ;
+		r->visit();
+		preorder(r->left());
+		preorder(r->right());
+	}
+	void inorder(BSTNode * r)const
+	{
+		if (r == nullptr)return;
+		inorder(r->left());
+		r->visit();
+		inorder(r->right());
+	}
+	void postorder(BSTNode * r)const
+	{
+		if (r == nullptr)return;
+		postorder(r->left());
+		postorder(r->right());
+		r->visit();
+	}
+
+
+
 private:
 	Key k;
 	E it;
@@ -108,6 +137,10 @@ public:
 	~BST()
 	{
 		clearhelp(root);
+	}
+	BST(const Key & k,const E & e)
+	{
+		root = new BSTNode<Key, E>(k, e);
 	}
 
 	void insert(const Key & k, const E & e)
@@ -154,7 +187,18 @@ public:
 	//	if(root == nullptr)cout<<"The BST tree is empty";
 	//	else printhelp(root,0);
 	//}
-
+	void preorder()const
+	{
+		root->preorder(root);
+	}
+	void inorder()const
+	{
+		root->inorder(root);
+	}
+	void postprder()const
+	{
+		root->postorder(root);
+	}
 
 private:
 	BSTNode<Key, E>*root;
@@ -247,7 +291,6 @@ private:
 		printhelp(rt -> left());
 		printhelp(rt->right());
 	};
-	//void printhelp(BSTNode<Key, E>* rt, int )const//preorder
 	
 
 	
@@ -262,11 +305,10 @@ int main()
 {
 	int order, element, key;
 	BST<int, int> tree;
-	//BST<int> tree(1);
 	while (true)
 	{
 		cout << "enter order\n";
-		cout << "1.insert an element\n";
+		cout << "1.insert an element(enter key and element)\n";
 		cout << "2.see the tree\n";
 		cout << "3.find a certain element\n";
 		cout << "4.delete an element\n";
@@ -275,12 +317,16 @@ int main()
 		{
 		case 1:
 			cout << "enter the key and element:";
-			cin >> element;
+			cin >> key >> element;
 			tree.insert(key, element);
 			break;
 		case 2:
-			cout << "No built\n";
-			//tree.preorder();
+			cout << "preorder:\n";
+			tree.preorder();
+			cout << "\ninorder:\n";
+			tree.inorder();
+			cout << "\npostorder:\n";
+			tree.postprder();
 			cout << endl;
 			break;
 		case 3:
@@ -293,9 +339,5 @@ int main()
 			cin >> key;
 			tree.remove(key);
 		}
-	
-
-	}
-		
-
+	}		
 }

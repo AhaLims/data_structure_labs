@@ -76,6 +76,7 @@ binNode<T> * binNode<T>::setLeft(const T & e)
 {
 	if (leftChild == nullptr)
 		leftChild = new binNode(e, this);
+	//else leftChild->setLeft(e);
 	else leftChild->Element = e;
 	leftChild->level = level + 1;
 	return leftChild;
@@ -86,6 +87,7 @@ binNode<T> * binNode<T>::setRight(const T & e)
 {
 	if (rightChild == nullptr)
 		rightChild = new binNode(e, this);
+	//else rightChild->setRight(e);
 	else rightChild->Element = e;
 	rightChild->level = level + 1;
 	return rightChild;
@@ -145,11 +147,39 @@ void binNode<T>::inorder(binNode <T> * r)
 	inorder(r->rightChild);
 }
 
+template<typename T>
+binNode<T> * buildTree( binNode<T> * root)
+{
+	binNode<T> * right = root->setRight(4);
+	binNode<T> * left = root->setLeft(5);
+	left->setRight(2);
+	left->setLeft(8);
+
+	right = right->setLeft(7);
+	right->setRight(10);
+	return root;
+	
+}
+
+
+
+
 
 int main()
 {
-	while (true)
-	{
-		
-	}
+	binNode<int> tree(1);
+	buildTree<int>(&tree);
+	cout << "preorder is :";
+	tree.preorder(&tree);
+	cout << endl;
+	cout << "inorder is :";
+	tree.inorder(&tree);
+	cout << endl;
+	cout << "post order is :";
+	tree.postorder(&tree);
+	cout << endl;
+	system("pause");
+	return 0;
+
+
 }
