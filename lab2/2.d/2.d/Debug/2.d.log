@@ -1,2 +1,4 @@
 ﻿  HuffmanTree.cpp
-  2.d.vcxproj -> C:\Users\lmx\source\labs\data struct labs\lab2\2.d\Debug\2.d.exe
+HuffmanTree.obj : error LNK2019: 无法解析的外部符号 "public: __thiscall Heap<class HuffTree<char> *>::Heap<class HuffTree<char> *>(class HuffTree<char> * *,int,int)" (??0?$Heap@PAV?$HuffTree@D@@@@QAE@PAPAV?$HuffTree@D@@HH@Z)，该符号在函数 "class HuffTree<char> __cdecl buildHuff<char>(class HuffTree<char> * *,int)" (??$buildHuff@D@@YA?AV?$HuffTree@D@@PAPAV0@H@Z) 中被引用
+D:\Program Files\opencv\build\x64\vc15\lib\opencv_world341d.lib : warning LNK4272: 库计算机类型“x64”与目标计算机类型“x86”冲突
+C:\Users\lmx\source\labs\data struct labs\lab2\2.d\Debug\2.d.exe : fatal error LNK1120: 1 个无法解析的外部命令

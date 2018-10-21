@@ -2,6 +2,7 @@
 #include<string>
 #include<queue>
 #include<algorithm>
+#include"Heap.h"
 using namespace std;
 //....
 template<typename T>
@@ -70,6 +71,7 @@ template <typename T>
 class HuffTree//没有初始化root??
 {
 public:
+
 	bool operator <(const HuffTree<T> & p)const//use it when building heap 
 	{
 		return this->weight() < p.weight();
@@ -78,7 +80,6 @@ public:
 	bool operator >(const HuffTree<T> & p)const//use it when building heap 
 	{
 		return this->weight() > p.weight();
-		
 	}
 
 	HuffTree(const T & val, int w)
@@ -111,10 +112,8 @@ public:
 
 	int weight()const
 	{
-//		cout << Root->weight() << endl;
 		return Root->weight();
 	}
-
 private:
 	HNode<T> * Root;
 };
@@ -155,13 +154,13 @@ template <typename T>
 HuffTree<T> buildHuff(HuffTree<T>**TreeArray, int count)
 {
 	//priority_queue<int,vector<int>,greater<int> >q;
-	priority_queue<HuffTree<T> , vector<HuffTree<T> >, greater<HuffTree<T> > >  forest;
+	Heap<HuffTree<T>*>  forest(TreeArray,count,100);
+	//priority_queue<HuffTree<T> , vector<HuffTree<T> >, greater<HuffTree<T> > >  forest;
 	for (int i = 0; i < count; i++)
 	{
-
-		//cout << TreeArray[i]->weight();
-		
-	 	forest.push( * TreeArray[i] );// HuffTree 
+		cout << forest.pop()->weight() << endl;
+		//cout <<"weight is :" << (*TreeArray[i]).weight();
+	 	//forest.push( * TreeArray[i] );// HuffTree 
 	}
 	//HuffTree<T> * temp1, *temp2, *temp3 = nullptr;
 	//while (forest.size() > 1)
@@ -195,4 +194,6 @@ int main()
 		
 	}
 	buildHuff(TreeArray, size);
+	system("pause");
+	return 0;
 }
