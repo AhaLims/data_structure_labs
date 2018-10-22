@@ -14,14 +14,16 @@ public:
 	binNode(const T &, binNode<T> * f);
 	binNode(binNode * f);
 	~binNode();
+
 	binNode<T> * setLeft(const T &);
 	binNode<T> * setRight(const T &);
 	binNode * LeftChild() { return leftChild; };
 	binNode * RightChild() { return rightChild; };
+
 	T * left();
 	T * right();
 	T& element() { return Element; };
-	bool ifLeaf();
+	bool ifLeaf();//判断是否叶子节点
 	void visit();
 	void preorder(binNode <T> *);
 	void postorder(binNode <T> *);
@@ -121,7 +123,7 @@ void binNode<T>::visit()
 }
 
 template<typename T>
-void binNode<T>::preorder(binNode <T> * r)
+void binNode<T>::preorder(binNode <T> * r)//递归的方式 访问节点
 {
 	if (r == nullptr) return;
 	r->visit();
@@ -148,7 +150,7 @@ void binNode<T>::inorder(binNode <T> * r)
 }
 
 template<typename T>
-binNode<T> * buildTree( binNode<T> * root)
+binNode<T> * buildTree( binNode<T> * root)//用例子建了一棵树
 {
 	binNode<T> * right = root->setRight(4);
 	binNode<T> * left = root->setLeft(5);
@@ -160,10 +162,6 @@ binNode<T> * buildTree( binNode<T> * root)
 	return root;
 	
 }
-
-
-
-
 
 int main()
 {

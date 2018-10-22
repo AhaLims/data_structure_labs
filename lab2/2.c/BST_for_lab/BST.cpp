@@ -10,16 +10,9 @@ class BinNode
 public:
 	virtual ~BinNode() {};
 
-	//virtual E & element()const = 0;/////////////////////////////////////////////////
 	virtual E  element()const = 0;
 
 	virtual void setElement(const E &) = 0;
-
-	//virtual BinNode * left()const = 0;
-
-	//virtual BinNode * right() const = 0;
-	
-	//virtual void setRight(BinNode *) = 0;
 
 	virtual bool isLeaf()const = 0;
 };
@@ -43,7 +36,7 @@ public:
 	{
 
 	};
-	//E & element() const////////////////////////////////
+	//E & element() const////////////////////////////////why wrong??
 	E element() const
 	{
 		return it;
@@ -93,6 +86,7 @@ public:
 		cout << k << " " << it << endl;
 	}
 
+	//用递归的方式 实现前序中序后序遍历
 	void preorder(BSTNode * r)const
 	{
 		if (r == nullptr)return ;
@@ -129,6 +123,7 @@ private:
 template<typename Key,typename E>
 class BST //:public Dictionary<Key,E>
 {
+	//public 部分 封装了insert remove find 遍历的函数
 public:
 	BST()
 	{
@@ -204,7 +199,7 @@ private:
 	BSTNode<Key, E>*root;
 	int nodecount;
 
-	void clearhelp(BSTNode<Key, E> * r)
+	void clearhelp(BSTNode<Key, E> * r)//delete所有的节点
 	{
 		if (r == nullptr)return;
 		clearhelp(r->left());
@@ -214,13 +209,13 @@ private:
 
 	BSTNode<Key, E>* inserthelp(BSTNode<Key, E> * root_, const Key & k, const E & it)
 	{
-		if (root_ == nullptr)
+		if (root_ == nullptr)//如果当前节点为空 new
 		{
 			BSTNode<Key, E> * temp = new BSTNode<Key, E>(k, it, nullptr, nullptr);
 			return temp;
 			//return new BSTNode<Key, E>(k, it, nullptr, nullptr);
 		}
-		if (k < root_->key())
+		if (k < root_->key())//根据关键值 选择进入左孩子 还是右孩子
 		{
 			root_->setLeft(inserthelp(root_->left(), k, it));
 		}

@@ -12,7 +12,8 @@ public:
 	TreeNode * left, *right;
 	int val;
 };
-class Solution {
+class Solution 
+{
 public:
 	int maxPathSum(TreeNode * root)
 	{
@@ -25,11 +26,14 @@ public:
 	int solve(TreeNode* node, int & res)
 	{
 		if (node == nullptr) return 0;
+
+		//max_ 取的是 0 left_ right_三者之间的最大值
 		int left_ = solve(node->left, res);
 		int right_ = solve(node->right, res);
 		if (left_ < 0)left_ = 0;
 		if (right_ < 0)right_ = 0;
 		int max_ = left_ > right_ ? left_ : right_;//get the max of left_ right_ 0 
+		//max加上当前的节点的值
 		max_ += node->val;
 		if (res < (left_ + right_ + node->val))res = left_ + right_ + node->val;	
 		return max_;
