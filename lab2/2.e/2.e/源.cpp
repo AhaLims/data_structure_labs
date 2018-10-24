@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 
-
+//思路 先递归到叶子节点 再回溯
 class TreeNode
 {
 public:
@@ -23,7 +23,10 @@ public:
 
 		return res;
 	}
-	int solve(TreeNode* node, int & res)
+	//要得到的答案是res
+	//因为如果
+	int solve(TreeNode* node, int & res)// 返回的 是 以当前结点为根结点，到叶节点的最大路径之和(也就是说只能取到一边的值)
+
 	{
 		if (node == nullptr) return 0;
 
@@ -40,8 +43,31 @@ public:
 	}
 };
 
-int main()
+
+
+#include<string>
+using namespace std;
+bool input()
 {
+	string s;
+	cin >> s;
+	bool start = false;
+	for (int i = 1; i < s.length(); i++)
+	{
+		/*if (start == false)
+		{
+			while (s[i++] != '[' && i < s.length())continue;
+			if (s[i] == '[')start = true;
+			
+		}*/
+		
+	}
+	return 1;
+}
+
+
+int main()
+{/*
 	TreeNode * root = new TreeNode(4);
 	TreeNode * temp = new TreeNode(11);
 	root->left = temp;
@@ -50,6 +76,16 @@ int main()
 	temp = new TreeNode(2);
 	root->left->right = temp;
 	temp = new TreeNode(13);
+	root->right = temp;*/
+	TreeNode * root = new TreeNode(-10);
+	TreeNode * temp = new TreeNode(9);
+	root->left = temp;
+	temp = new TreeNode(20);
+	root->right = temp;
+	root = root->right;
+	temp = new TreeNode(15);
+	root->left = temp;
+	temp = new TreeNode(7);
 	root->right = temp;
 	Solution s;
 	cout << "max is " << s.maxPathSum(root) << endl;

@@ -1,6 +1,9 @@
 //need to be test
 #include<stdio.h>
-
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
 
 
 
@@ -146,7 +149,8 @@ public:
 
 	E remove(const Key & k)
 	{
-		E temp = findhelp(root, k);
+		bool if_find = false;
+		E temp = findhelp(root, k,if_find);
 		if (temp != NULL) //???
 		{
 			root = removehelp(root, k);
@@ -167,9 +171,18 @@ public:
 		else return nullptr;
 	}
 
-	E find(const Key & k)const
+	void find(const Key & k)const
 	{
-		return findhelp(root, k);
+		bool if_find = false;
+		findhelp(root, k,if_find);
+		if (if_find == true)
+		{
+			cout << "find\n";
+		}
+		else
+		{
+			cout << "cannot be found\n";
+		}
 	}
 
 	int size()
@@ -270,12 +283,16 @@ private:
 		return rt;
 	};
 
-	E findhelp(BSTNode<Key, E>* root_,const Key & k)const
+	E findhelp(BSTNode<Key, E>* root_,const Key & k,bool & if_find)const
 	{
 		if (root_ == nullptr)return NULL;
-		if (k < root_->key())return findhelp(root_->left(), k);
-		else if (k > root_->key())return findhelp(root_->right(), k);
-		else return root_->element();
+		if (k < root_->key())return findhelp(root_->left(), k,if_find);
+		else if (k > root_->key())return findhelp(root_->right(), k,if_find);
+		else
+		{
+			if_find = true;
+			return root_->element();
+		}
 	};
 
 	void printhelp(BSTNode<Key, E> * rt)
