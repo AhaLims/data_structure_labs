@@ -1,0 +1,3 @@
+﻿  源.cpp
+c:\users\lmx\source\labs\data struct labs\lab3\tromino_参考\tromino_参考\源.cpp(68): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  Tromino_参考.vcxproj -> C:\Users\lmx\source\labs\data struct labs\lab3\Tromino_参考\Debug\Tromino_参考.exe
